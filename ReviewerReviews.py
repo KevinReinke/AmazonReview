@@ -7,9 +7,6 @@ confCluster.setMaster("yarn-client")
 confCluster.set("spark.driver.host","frontend")
 confCluster.setAppName("AmazonReviews")
 
-#run on local machine
-#confLocal = SparkConf().setMaster("local").setAppName("Spark Test Local")	
-
 sc = SparkContext(conf = confCluster)
 
 # Read the data in json format line by line
@@ -23,14 +20,16 @@ with open("filedata.txt", "w") as f:
 # The reviews for each reviewer
 reviewerReviews = filedata.groupBy(lambda v: v["reviewerID"]).map(lambda x: (x[0], list(x[1])))
 
+reviewerReviews.saveAsTextFile("reviews/reviewerReviews");
+
 # Calculate the counts of reviews for each reviewer
-reviewCounts = reviewerReviews.map(lambda v: len(v[1]))
+#reviewCounts = reviewerReviews.map(lambda v: len(v[1]))
 
-numberCounts = sorted(reviewCounts.countByValue().items())
+#numberCounts = sorted(reviewCounts.countByValue().items())
 
 
 
-results = numberCounts #reviewerReviews.take(1)
+results = reviewerReviews.take(1)
 
 # Write results to local disk
 with open("results.txt", "w") as f:
