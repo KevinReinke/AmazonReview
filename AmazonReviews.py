@@ -23,7 +23,14 @@ with open("filedata.txt", "w") as f:
 # The reviews for each reviewer
 reviewerReviews = filedata.groupBy(lambda v: v["reviewerID"]).map(lambda x: (x[0], list(x[1])))
 
-results = reviewerReviews.take(1)
+# Calculate the counts of reviews for each reviewer
+reviewCounts = reviewerReviews.map(lambda v: len(v[1]))
+
+numberCounts = sorted(reviewCounts.countByValue().items())
+
+
+
+results = numberCounts #reviewerReviews.take(1)
 
 # Write results to local disk
 with open("results.txt", "w") as f:
