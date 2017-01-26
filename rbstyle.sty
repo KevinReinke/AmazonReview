@@ -1,0 +1,186 @@
+
+\usepackage[utf8]{inputenc}
+\usepackage{fontspec}
+\usepackage{nameref}
+\usepackage{xifthen}
+
+% Font
+\setmainfont[Ligatures=TeX]{Cambria}
+\usefonttheme{serif}
+\usefonttheme{professionalfonts}
+
+% Default colors
+\definecolor{NewBeige}{RGB}{255, 240, 190}
+\definecolor{NewBeigeDark}{RGB}{220, 200, 180}
+\definecolor{NewRed}{RGB}{130, 0, 6}
+\definecolor{NewRedDark}{RGB}{90, 0, 6}
+
+% Background color for frames and sidebar
+\setbeamercolor{background canvas}{bg=NewBeige}
+%\setbeamercolor{sidebar}{bg=NewRed}
+\setbeamercolor{sidebar}{bg=NewRed}
+
+% Font color of the structure
+\setbeamercolor{structure}{fg=NewRed}
+
+% Color palettes for for- and backgrounds of the sections shown in the sidebar
+\setbeamercolor{palette sidebar primary}{fg=NewBeigeDark, bg=NewRedDark}
+\setbeamercolor{palette sidebar secondary}{fg=NewBeigeDark, bg=NewRedDark}
+
+% Real colors for the sections shown in the sidebar
+\setbeamercolor{subsection in sidebar}{fg=NewBeige}
+\setbeamercolor{section in sidebar}{fg=NewBeige}
+\setbeamercolor{subsection in sidebar shaded}{fg=NewBeige}
+\setbeamercolor{section in sidebar shaded}{fg=NewBeigeDark}
+
+% Activate sidebar
+\useoutertheme[left, height=0pt]{sidebar}
+
+% Configure TOC
+\setbeamertemplate{section in toc}[square]
+
+\setbeamertemplate{subsection in toc}{
+	\leavevmode\leftskip=5.65ex%
+	  \llap{\raisebox{0.2ex}{\textcolor{structure}{$\blacktriangleright$}}\kern1ex}%
+	  \inserttocsubsection\par%
+}
+
+
+%\def\vshading
+
+%\ifdef{\vshading}{
+%\setbeamertemplate{sidebar canvas left}[vertical shading]
+%     [top=NewRed!100,middle=NewRed!100,bottom=NewRed!50!NewBeige,midpoint=0.3] %NewBeige!100
+%}{}
+
+%\usetheme[hideothersubsections]{Marburg}
+
+% Set footer contents
+\setbeamertemplate{footline}[text line]{%
+  \parbox{\linewidth}{\vspace*{-8pt}\insertshorttitle\hfill\insertauthor\hfill\insertpagenumber}
+}
+\setbeamertemplate{navigation symbols}{}
+
+% Change sidebar to remove name and title of the presentation
+\makeatletter
+  \setbeamertemplate{sidebar \beamer@sidebarside}%{sidebar theme}
+  {
+    \beamer@tempdim=\beamer@sidebarwidth%
+    \advance\beamer@tempdim by -6pt%
+    \insertverticalnavigation{\beamer@sidebarwidth}%
+    \vfill
+    \ifx\beamer@sidebarside\beamer@lefttext%
+    \else%
+      \usebeamercolor{normal text}%
+      \llap{\usebeamertemplate***{navigation symbols}\hskip0.1cm}%
+      \vskip2pt%
+    \fi%
+}%
+
+% Add the logo of the university to the top of the sidebar
+\addtobeamertemplate{sidebar left}{\includegraphics[width=\beamer@sidebarwidth]{fsu_logo.png}\\%
+}{}
+\makeatother
+
+% Headlines for sections
+\AtBeginSection[]{
+%	\begin{frame}
+%	\vfill
+%	\centering
+%	\usebeamercolor[fg]{structure}
+%	\usebeamerfont{title}\insertsectionhead\par
+%	\vfill
+%	\end{frame}
+	\begin{frame}	
+		\small
+		\tableofcontents[currentsection]
+	\end{frame}
+}
+
+% Add new command to remove footer for the current frame(s)
+\newcommand{\nofooter}[1]{{
+\setbeamertemplate{footline}{}
+#1
+}}
+
+% New command to reference the name of the current section/subsection
+\makeatletter
+\newcommand*{\currentname}{\@currentlabelname}
+\makeatother
+
+\newcommand*{\framesubsection}[1]{
+	\subsection{#1}
+	\frametitle{#1}
+}
+
+\newcommand{\defaultframe}[3][]{
+	\begin{frame}
+		\frametitle{#2}
+		\ifthenelse{\isempty{#1}}{}{\framesubtitle{#1}}
+		\ifthenelse{\isempty{#3}}{}{
+		\begin{itemize}
+			#3
+		\end{itemize}
+		}
+
+	\end{frame}
+}
+
+\newcommand{\defaultframeS}[3][]{
+	\begin{frame}
+		\framesubsection{#2}
+		\ifthenelse{\isempty{#1}}{}{\framesubtitle{#1}}
+		\ifthenelse{\isempty{#3}}{}{
+		\begin{itemize}
+			#3
+		\end{itemize}
+		}
+
+	\end{frame}
+}
+
+\newcommand{\otherframeS}[3][]{
+	\begin{frame}
+		\framesubsection{#2}
+		\ifthenelse{\isempty{#1}}{}{\framesubtitle{#1}}
+		#3
+	\end{frame}
+}
+
+\newcommand{\otherframe}[3][]{
+	\begin{frame}
+		\frametitle{#2}
+		\ifthenelse{\isempty{#1}}{}{\framesubtitle{#1}}
+		#3
+	\end{frame}
+}
+
+\newcommand{\splitframeVS}[4][]{
+	\begin{frame}
+		\framesubsection{#2}
+		\ifthenelse{\isempty{#1}}{}{\framesubtitle{#1}}
+		\begin{columns}
+			\begin{column}{0.5\textwidth}
+				#3
+			\end{column}
+			\begin{column}{0.5\textwidth}
+				#4
+			\end{column}
+		\end{columns}
+	\end{frame}
+}
+
+\newcommand{\splitframeV}[4][]{
+	\begin{frame}
+		\frametitle{#2}
+		\ifthenelse{\isempty{#1}}{}{\framesubtitle{#1}}
+		\begin{columns}
+			\begin{column}{0.5\textwidth}
+				#3
+			\end{column}
+			\begin{column}{0.5\textwidth}
+				#4
+			\end{column}
+		\end{columns}
+	\end{frame}
+}
