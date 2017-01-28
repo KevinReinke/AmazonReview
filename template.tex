@@ -1,0 +1,89 @@
+\documentclass{beamer}
+
+\usepackage{rbstyle}
+
+% Metadata
+\title[Titleshort]{Blergh}
+\subtitle{Blub}
+\author[Nameshort]{Matthias Körschens}
+\institute{Friedrich-Schiller-Universität Jena}
+
+
+
+\begin{document}
+	\nofooter{
+		\frame{\titlepage}
+	}
+	\begin{frame}
+		\tableofcontents
+	\end{frame}
+	\section{Blabla}
+	\begin{frame}
+		\frametitle{Blabla}
+		\subsection{blubbediblu}
+		blubblubblub
+	\end{frame}
+	\section{Blublu}
+	\begin{frame}
+		\frametitle{Blublu}
+		blöbblöbblöb
+	\end{frame}
+	\section{Itemize}
+	\begin{frame}
+		\frametitle{Itemize}
+		\begin{itemize}
+		\item Point 1
+		\item Point 2
+		\item Point 3
+		\begin{itemize}
+		\item Subpoint 1
+		\item Subpoint 2
+		\end{itemize}
+		\end{itemize}
+	\end{frame}
+	\begin{frame}
+	\framesubsection{Use of framesection}
+	\end{frame}
+	\begin{frame}
+	\framesubsection{Use of framesubsection}
+	\end{frame}
+	\section{Blocks}
+	\begin{frame}
+		\frametitle{Blocks}
+		\begin{block}{Block}
+		This is a long sentence or definition belonging to the first block and being used here for displaying purposes and stuff like that.
+		\end{block}
+		\begin{exampleblock}{Exampleblock}
+		This is a long sentence or definition belonging to the second block and being used here for displaying purposes and stuff like that.
+		\end{exampleblock}
+		\begin{alertblock}{Alertblock}
+		This is a long sentence or definition belonging to the second block and being used here for displaying purposes and stuff like that.
+		\end{alertblock}
+	\end{frame}
+	\section{Image}
+	\begin{frame}
+		\frametitle{Image}
+		\begin{columns}
+			\begin{column}{0.5\textwidth}
+				\begin{block}{}
+					This is a long sentence or definition belonging to the second block and being used here for displaying purposes and stuff like that.
+				\end{block}
+			\end{column}
+			\begin{column}{0.5\textwidth}
+				\includegraphics[width=5cm]{x.jpg}\\
+				\includegraphics[width=5cm]{x.jpg}
+			\end{column}
+		\end{columns}
+	\end{frame}
+	\section{Blabla2}
+	\begin{frame}
+		\frametitle{Blabla2}
+		\subsection{blubbediblu2}
+		blubblubblubblabbedibla
+	\end{frame}
+	\begin{frame}
+		\frametitle{Frametitle}
+		\framesubtitle{Framesubtitle}
+		teeeext
+	\end{frame}
+\end{document}
