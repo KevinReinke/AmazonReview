@@ -75,14 +75,14 @@ result_collection["review_length_word_count"] = review_length_wc
 # Conduct PCA
 reviewer_vectors_real = reviewer_vectors.map(lambda x: Vectors.dense([val for val in x[1]]))
 
-pca_model = PCA(4).fit(reviewer_vectors_real)
+pca_model = PCA(8).fit(reviewer_vectors_real)
 transformed = pca_model.transform(reviewer_vectors_real)
 
 current_best = None
 current_best_cost = float("inf")
 
 # Run K-Means
-for k in range(2, 50, 7):
+for k in range(2, 70, 7):
 	kmeans_model = KMeans.train(transformed, k, maxIterations = 100, runs = 10)
 
 	cost = kmeans_model.computeCost(transformed)
