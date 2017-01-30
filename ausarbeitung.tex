@@ -40,6 +40,10 @@
                 % aktuellen Rechtschreiberegeln umgeschaltet.
                 % Alternativen und weitere Sprachen sind
                 % verfügbar (siehe <http://ctan.org/pkg/babel>).
+				
+\newfontfamily\Consolas{Consolas}
+\lstset{basicstyle=\Consolas}				
+
 \begin{document}
 % ----------------------------------------------------------------------------
 % Titel (erst nach \begin{document}, damit babel bereits voll aktiv ist:
@@ -56,7 +60,7 @@
 \begingroup
 \let\cleardoublepage\relax
 \section{Einleitung}
-Ziel der Projektarbeit war es, die im Rahmen der Vorlesung \glqq Big Data\grqq erworbenen Fähigkeiten praktisch umzusetzten. Hierfür konnten wir einen Amazonreview-Datensatz der Stanford University nutzen. Ein Dank geht an dieser Stelle an Julian McAuley, der so freundlich war uns diesen Datensatz auf Nachfrage zur Verfügung zu stellen. Zur Bearbeitung der Daten haben wir Apache Spark, sowie den Clusterrechner der FSU-Jena benutzt. Fragestellung unserer Bearbeitung war das erkennen von Muster in den Daten. Im speziellen haben wir uns auf die Verteilung der Reviews und das Bewertungsverhalten der Nutzer konzentriert.
+Ziel der Projektarbeit war es, die im Rahmen der Vorlesung \glqq Big Data\grqq  erworbenen Fähigkeiten praktisch umzusetzen. Hierfür konnten wir einen Amazon-Review-Datensatz der Stanford University nutzen. Ein Dank geht an dieser Stelle an Julian McAuley, der so freundlich war uns diesen Datensatz auf Nachfrage zur Verfügung zu stellen. Zur Bearbeitung der Daten haben wir Apache Spark, sowie den Lofar-Rechencluster der FSU-Jena benutzt. Die Fragestellung unserer Bearbeitung war das Erkennen von Mustern und Zusammenhängen in den Daten. Im Speziellen haben wir uns auf die Verteilung der Reviews und das Bewertungsverhalten der Nutzer konzentriert.
 \section{Datensatz}
 Der in dieser Arbeit verwendete Datensatz besteht aus Reviews des Onlinehändlers Amazon aus der Zeitspanne von Mai 1996 bis Juni 2014. Es wird hier ein spezieller Teildatensatz verwendet, welcher lediglich Reviews aus der Kategorie Elektronik enthält. Dieser hat mit 7,8 Millionen Reviews von etwa 4,2 Millionen Nutzern eine Größe von 4,7 Gigabyte. Er ist vollständig im JSON-Format gehalten. Ein Beispielreview ist nachfolgend dargestellt:
 
@@ -78,45 +82,52 @@ Die Datensätze bestehen aus der ID des Reviewers (reviewerID), der Produkt-ID (
 Der Datensatz ist verfügbar unter \url{http://jmcauley.ucsd.edu/data/amazon/}.
 \section{Strukturen}
 \subsection{Verteilung der Reviews}
-Eine Fragestellung ist die Verteilung der Reviews auf die Nutzer. Hierfür haben wir die Reviews mit gleicher ReviewerID aufaggregiert und die Anzahl der Reviews, die ein Nutzer abgegeben hat, dem Nutzer zugeordnet. Dabei ist aufgefallen, dass die erfassten Nutzer eher wenig bewerten. Beispielsweisen gibt es etwa 2,88 von 4,2 Millionen Nutzern die nur ein einziges Review abgaben. In Abbildung 0.1 ist die Anzahl der Nutzer, die eine spezifische Anzahl an Reviews abgegeben haben, dargestellt. Für eine bessere Visualisierung wurden beide Achsen logarithmiert. 
-\begin{figure}[H]
-\centering
+Eine Fragestellung ist die Verteilung der Reviews auf die Nutzer. Hierfür haben wir die Reviews mit gleicher ReviewerID aufaggregiert und die Anzahl der Reviews, die ein Nutzer abgegeben hat, dem Nutzer zugeordnet. Dabei ist aufgefallen, dass die erfassten Nutzer eher wenige Reviews erstellen. Beispielsweise gibt es etwa 2,88 von 4,2 Millionen Nutzern, die nur ein einziges Review abgaben. In Abbildung \ref{fig_reviews} ist die Anzahl der Nutzer, die eine spezifische Anzahl an Reviews abgegeben haben, dargestellt. Für eine bessere Visualisierung wurden beide Achsen logarithmiert. 
+\begin{figure}
+    \centering
     \includegraphics[width=0.8\textwidth]{bild.png}
+    \label{fig_reviews}
     \caption{Reviewverteilung}
 \end{figure}
-Der Zusammenhang schein exponentiell zu sein. Da ferner die Gruppen nach der Anzahl der Reviews sortiert wurden, erinnert dies an das Zipfsche Gesetzt aus der Linguistik.
+Der Zusammenhang scheint exponentiell zu sein. Da ferner die Gruppen nach der Anzahl der Reviews sortiert wurden, erinnert dies an das Zipfsche Gesetz, welchen seinen Usprung in der Linguistik hat. Dieses besagt, dass die Wahrscheinlichkeit des Auftretens der Elemente einer Menge umgekehrt proportional zu ihrer Position in der nach Häufigkeit sortierten Menge ist. Somit gilt 
+\begin{equation}
+	p(n)\sim \frac{1}{n},
+\end{equation}
+wobei p die Auftrittswahrscheinlichkeit und n die Position in der nach Häufigkeit sortierten Menge ist.
 
-\subsection{Reviewerverhalten bei steigener Reviewanzahl}
-Zunächst haben wir die Gruppierung der Nutzer nach ihrer Anzahl an Reviews beibehalten und untersucht, ob sich diese Gruppen unterschiedliches verhalten aufzeigen. Innerhalb einer Gruppe wurden für die Merkmale die Gruppendurchschnitte errechnet. Die Merkmale und ihr Zusammenhang in Abhängigkeit der Reviewanzahl sind in den Grafiken im Anhang dargestellt.\\
-Wie im vorigen Abschnitt angesprochen überwiegen die Nutzer mit wenig Reviews. Daher ist die Durchschnittsbildung über die Merkmale bei den Gruppen mit wenig Reviews(mehr Reviewer je Gruppe) stabiler. Für Gruppen mit mehr 100 Reviews, kann es unter Umständen sein, dass diese nur aus einen einzigen Reviewer besteht. Dies zeigt sich in der starken Streuung der vier Grafen mit zunehmender Reviewanzahl. Aus diesen Grund wurde die Achse der Reviewanzahl logarithmiert, um die relevanteren Gruppen in den Fokus zu rücken. Auch wenn der Durchschnitt für einige Gruppen nicht sehr aussagekräftig ist, so lassen sich dennoch deutliche Zusammenhänge erkennen. Nutzer die mehrere Reviews verfassen, schreiben ausführlichere Bewertungstexte und werden von anderen Nutzern als hilfreicher eingestuft. Ebenso scheinen sie Produkte leicht besser zu bewerten.
+\subsection{Reviewerverhalten bei steigender Reviewanzahl}
+Zunächst haben wir die Gruppierung der Nutzer nach ihrer Anzahl an Reviews beibehalten und untersucht, ob diese Gruppen unterschiedliches Verhalten aufzeigen. Innerhalb einer Gruppe wurden für die Merkmale die Gruppendurchschnitte errechnet. Die Merkmale und ihr Zusammenhang in Abhängigkeit von der Reviewanzahl sind in den Grafiken im Anhang dargestellt.\\
+Wie im vorigen Abschnitt bereits angesprochen überwiegen die Nutzer mit wenigen Reviews. Daher ist die Durchschnittsbildung über die Merkmale bei den Gruppen mit wenigen Reviews (mehr Reviewer je Gruppe) stabiler. Für Gruppen mit mehr als 100 Reviews, kann es unter Umständen sein, dass diese nur aus einem einzigen Reviewer besteht. Dies zeigt sich in der starken Streuung der vier Grafen mit zunehmender Reviewanzahl. Aus diesem Grund wurde die Achse der Reviewanzahl logarithmiert, um so die relevanteren Gruppen in den Fokus zu rücken. Auch, wenn der Durchschnitt für einige Gruppen nicht sehr aussagekräftig ist, so lassen sich dennoch deutliche Zusammenhänge erkennen. Nutzer die mehrere Reviews verfassen, schreiben ausführlichere Bewertungstexte und werden von anderen Nutzern als hilfreicher eingestuft. Ebenso scheinen sie Produkte leicht besser zu bewerten.
 
 \subsection{Textlänge und Produktbewertung}
-Ein interessanter Zusammenhang hat sich bei der Beziehung zwischen der Textlänge des Reviews und der Produktbewertung gezeigt. Die Textlänge haben wir im folgenden nach Zeichen- und  Wortanzahl untersucht. Dabei wurden alle Reviews mit gleicher Länge zusammengruppiert und über diese Gruppen die durchschnittlichen Produktbewertungen bestimmt. 
-\begin{figure}[H]
+Ein interessanter Zusammenhang hat sich bei der Beziehung zwischen der Textlänge des Reviews und der Produktbewertung gezeigt. Die Textlänge haben wir im Folgenden auf Zeichen- und  Wortanzahl untersucht. Dabei wurden alle Reviews mit gleicher Länge zusammengruppiert und über diese Gruppen die durchschnittlichen Produktbewertungen bestimmt. Die Ergebnisse dieses Versuchs sind in den Abbildungen \ref{fig_char_rating} und \ref{fig_word_rating} dargestellt.
+\begin{figure}
 \centering
     \includegraphics[width=0.7\textwidth]{_results/char_rating.png}
+	\label{fig_char_rating}
 \end{figure}
-\begin{figure}[H]
+\begin{figure}
 \centering
     \includegraphics[width=0.7\textwidth]{_results/word_rating.png}
-
+	\label{fig_word_rating}
 \end{figure}
-Hier sind die Produktbewertungen mit wenig Wörtern anfänglich zwischen 4,0 und 4,5. Mit zunehmender Textlänge bis etwa 180 Wörtern fällt die Bewertung auf 3,6 erholt sich danach aber wieder leicht. Ab 1000 Wörtern sind zuverlässige Aussgen wieder nicht mehr möglich, da die Gruppen zu klein werden.
+Hier sind die Produktbewertungen mit wenigen Wörtern anfänglich zwischen 4,0 und 4,5. Mit zunehmender Textlänge bis etwa 180 Wörtern fällt die Bewertung auf 3,6 erholt sich danach aber wieder leicht. Ab 1000 Wörtern sind zuverlässige Aussgen wieder nicht mehr möglich, da die Gruppen zu klein werden.
 
 \section{Cluster}
-Um die Nutzer untereinander in Beziehung zu setzten, mussten wir jeden Reviewer ein Merkmalsvektor zuordnen. Diesen haben wir über arithmetische Mittelung der vom Nutzer abgegebenen Reviews bestimmt. Die Merkmale sind dabei:
+Um die Nutzer untereinander in Beziehung zu setzen, mussten wir jedem Reviewer einen Merkmalsvektor zuordnen. Diesen haben wir über arithmetische Mittelung der vom Nutzer abgegebenen Reviews bestimmt. Die Merkmale sind dabei:
 \begin{itemize}
 \item Wortanzahl des Bewertungstextes
 \item Zeichenanzahl des Bewertungstextes
 \item Zeitstempel des Reviews
 \item Zeichenanzahl des Reviewtitels
 \item wie hilfreich das Review war prozentual
-\item wieviele das Review ingesamt nützlich fanden
+\item wieviele das Review ingesamt als hilfreich oder nicht hilfreich bewertet haben
 \item Produktbewertung
+\item Anzahl der Reviews
 \end{itemize}
 
-Agglomeratives Clusterverfahren, welches ein Distanzmaß zwischen allen Reviewern benutzt, haben wir verworfen, da hierfür ein quadratischer Aufwand in Anzahl der Reviewer anfallen würde.\\
-Als ersten Schritt haben wir die Daten mit der Hauptachsentransformation bearbeitet. Hierfür wurde die Bibliothek pyspark.mllib.feature benutzt. Leider hat sie als Rückgabewerte keine Transformationsmatrix oder Eigenwerte geliefert, sodass keine Aussagen über die Einflüsse der einzelnen Merkmale möglich waren. Im Anschluss wurden die Daten mit dem K-means Algorithmus der Bibliothek pyspark.mllib.cluserting gruppiert. Der Algorithmus wurde mit 10 zufälligen Startkonfigurationen ausgeführt und über die entstandenen Merkmalsverktoren der Cluster gemittelt. Als Clusteranzahl haben wir $k=2,44$ und $65$ gewählt.
+Agglomerative Clusterverfahren, welche ein Distanzmaß zwischen sämtlichen Reviewern verwenden, haben wir verworfen, da hierfür ein quadratischer Aufwand bezüglich der Anzahl der Reviewer anfallen würde.\\
+Als ersten Schritt haben wir die Daten mit einer Hauptachsentransformation bearbeitet. Hierfür wurde die Bibliothek pyspark.mllib.feature benutzt. Leider hat sie als Rückgabewerte keine Transformationsmatrix oder Eigenwerte geliefert, sodass keine Aussagen über die Einflüsse der einzelnen Merkmale möglich waren. Im Anschluss wurden die Daten mit dem K-means Algorithmus der Bibliothek pyspark.mllib.clustering gruppiert. Der Algorithmus wurde mit 10 zufälligen Startkonfigurationen ausgeführt und über die entstandenen Merkmalsverktoren der Cluster gemittelt. Als Clusteranzahl haben wir $k=2,44$ und $65$ gewählt.
 
 \newpage
 \section*{Anhang}
@@ -137,7 +148,7 @@ Als ersten Schritt haben wir die Daten mit der Hauptachsentransformation bearbei
 \newpage
 \subsection*{Code}
 \underline{run.sh}
-\begin{lstlisting}
+\begin{lstlisting}[breaklines=true]
 #!/usr/bin/bash
 
 hdfs dfs -rm -r -f reviews/reviewerReviewsSample
@@ -153,7 +164,7 @@ cat results.txt
 \end{lstlisting}
 \newpage
 \underline{ProcessCluster.py}
-\begin{lstlisting}
+\begin{lstlisting}[breaklines=true]
 from pyspark import SparkConf, SparkContext
 import json
 import argparse
@@ -215,7 +226,7 @@ for key in result_collection:
 \end{lstlisting}
 \newpage
 \underline{ReviewerReviews.py}
-\begin{lstlisting}
+\begin{lstlisting}[breaklines=true]
 from pyspark import SparkConf, SparkContext
 import json
 import argparse
