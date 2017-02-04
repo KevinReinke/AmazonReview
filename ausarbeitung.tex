@@ -80,6 +80,7 @@ Der in dieser Arbeit verwendete Datensatz besteht aus Reviews des Onlinehändler
 Die Datensätze bestehen aus der ID des Reviewers (reviewerID), der Produkt-ID (asin), dem Namen des Reviewers (reviewerName), einer Liste mit zwei numerischen Werten, die die hilfreich-Bewertungen repräsentieren (helpful), dem Inhalt der Review (reviewText), der Produktbewertung (overall), der Überschrift bzw. Zusammenfassung des Reviews (summary), dem Datum der Review (reviewTime) und dem Datum im Unix-Format (unixReviewTime). Aufgrund der gegebenen Reviewer-ID lassen sich so auch neben den Reviews Rückschlüsse über die einzelnen Reviewer ziehen.\\
 Der Datensatz ist verfügbar unter \url{http://jmcauley.ucsd.edu/data/amazon/}.
 \section{Strukturen}
+Um ein erstes Gefühl für den Datensatz zu bekommen, haben wir einige Extremfälle ermittelt. So war 520 die maximale Anzahl an Reviews, die von einem Nutzer verfasst wurden. Das längste Review im Datensatz hatte 32703 Zeichen und 6465 Wörter.
 \subsection{Verteilung der Reviews}
 Eine Fragestellung ist die Verteilung der Reviews auf die Nutzer. Hierfür haben wir die Reviews mit gleicher ReviewerID aufaggregiert und die Anzahl der Reviews, die ein Nutzer abgegeben hat, dem Nutzer zugeordnet. Dabei ist aufgefallen, dass die erfassten Nutzer eher wenige Reviews erstellen. Beispielsweise gibt es etwa 2,88 von 4,2 Millionen Nutzern, die nur ein einziges Review abgaben. In Abbildung \ref{fig_reviews} ist die Anzahl der Nutzer, die eine spezifische Anzahl an Reviews abgegeben haben, dargestellt. Für eine bessere Visualisierung wurden beide Achsen logarithmiert. 
 \begin{figure}
@@ -126,7 +127,7 @@ Um die Nutzer untereinander in Beziehung zu setzen, mussten wir jedem Reviewer e
 \end{itemize}
 
 Agglomerative Clusterverfahren, welche ein Distanzmaß zwischen sämtlichen Reviewern verwenden, haben wir verworfen, da hierfür ein quadratischer Aufwand bezüglich der Anzahl der Reviewer anfallen würde.\\
-Als ersten Schritt haben wir die Daten mit einer Hauptachsentransformation bearbeitet. Hierfür wurde die Bibliothek pyspark.mllib.feature benutzt. Leider hat sie als Rückgabewerte keine Transformationsmatrix oder Eigenwerte geliefert, sodass keine Aussagen über die Einflüsse der einzelnen Merkmale möglich waren. Im Anschluss wurden die Daten mit dem K-means Algorithmus der Bibliothek pyspark.mllib.clustering gruppiert. Der Algorithmus wurde mit 10 zufälligen Startkonfigurationen ausgeführt und über die entstandenen Merkmalsverktoren der Cluster gemittelt. Als Clusteranzahl haben wir $k=2,44$ und $65$ gewählt.
+Als ersten Schritt haben wir die Daten mit einer Hauptachsentransformation bearbeitet. Hierfür wurde die Bibliothek pyspark.mllib.feature benutzt. Leider hat sie als Rückgabewerte keine Transformationsmatrix oder Eigenwerte geliefert, sodass keine Aussagen über die Einflüsse der einzelnen Merkmale möglich waren. Im Anschluss wurden die Daten mit dem K-means Algorithmus der Bibliothek pyspark.mllib.clustering gruppiert. Der Algorithmus wurde mit 10 zufälligen Startkonfigurationen ausgeführt und über die entstandenen Merkmalsverktoren der Cluster gemittelt. Als Clusteranzahl haben wir $k=44$ und $65$ gewählt. Wir konnten die Mittelpunkte der Cluster bestimmen. Ohne Informationen aus der Hauptachsentransformation knnten wir aber von der Lage dieser Clusterzentren jedoch keine weiteren Beobachtungen ableiten.
 
 \newpage
 \section*{Anhang}
@@ -142,6 +143,13 @@ Als ersten Schritt haben wir die Daten mit einer Hauptachsentransformation bearb
 \end{figure}
 \begin{figure}[H]
    \includegraphics[width=0.8\textwidth]{_results/helpfull_count2.png}
+\end{figure}
+\subsection*{unlogarithmierte Graphen}
+\begin{figure}[H]
+   \includegraphics[width=0.8\textwidth]{_results/charcount.png}
+\end{figure}
+\begin{figure}[H]
+   \includegraphics[width=0.8\textwidth]{_results/helpfull_count.png}
 \end{figure}
 
 \newpage
