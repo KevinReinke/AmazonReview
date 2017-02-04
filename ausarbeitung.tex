@@ -11,6 +11,7 @@
 \usepackage{url}
 \usepackage{subfigure}
 \usepackage{float}
+\usepackage{hyperref}
 
 \newtheoremstyle{my_th_style}%
 	{3pt}%		// space above
@@ -82,14 +83,14 @@ Der Datensatz ist verfügbar unter \url{http://jmcauley.ucsd.edu/data/amazon/}.
 \section{Strukturen}
 Um ein erstes Gefühl für den Datensatz zu bekommen, haben wir einige Extremfälle ermittelt. So war 520 die maximale Anzahl an Reviews, die von einem Nutzer verfasst wurden. Das längste Review im Datensatz hatte 32703 Zeichen und 6465 Wörter.
 \subsection{Verteilung der Reviews}
-Eine Fragestellung ist die Verteilung der Reviews auf die Nutzer. Hierfür haben wir die Reviews mit gleicher ReviewerID aufaggregiert und die Anzahl der Reviews, die ein Nutzer abgegeben hat, dem Nutzer zugeordnet. Dabei ist aufgefallen, dass die erfassten Nutzer eher wenige Reviews erstellen. Beispielsweise gibt es etwa 2,88 von 4,2 Millionen Nutzern, die nur ein einziges Review abgaben. In Abbildung \ref{fig_reviews} ist die Anzahl der Nutzer, die eine spezifische Anzahl an Reviews abgegeben haben, dargestellt. Für eine bessere Visualisierung wurden beide Achsen logarithmiert. 
+Eine Fragestellung ist die Verteilung der Reviews auf die Nutzer. Hierfür haben wir die Reviews mit gleicher ReviewerID aufaggregiert und die Anzahl der Reviews, die ein Nutzer abgegeben hat, dem Nutzer zugeordnet. Dabei ist aufgefallen, dass die erfassten Nutzer eher wenige Reviews erstellen. Beispielsweise gibt es etwa 2,88 von 4,2 Millionen Nutzern, die nur ein einziges Review abgaben. In Abbildung \ref{fig_reviews} ist die Anzahl der Nutzer, die eine spezifische Anzahl an Reviews abgegeben haben, dargestellt. Für eine bessere Visualisierung wurden beide Achsen logarithmiert. Der unlogarithmierte Graph begindet sich im \href{unlog}{Anhang}.
 \begin{figure}
     \centering
     \includegraphics[width=0.8\textwidth]{bild.png}
     \label{fig_reviews}
     \caption{Reviewverteilung}
 \end{figure}
-Der Zusammenhang scheint exponentiell zu sein. Da ferner die Gruppen nach der Anzahl der Reviews sortiert wurden, erinnert dies an das Zipfsche Gesetz, welchen seinen Usprung in der Linguistik hat. Dieses besagt, dass die Wahrscheinlichkeit des Auftretens der Elemente einer Menge umgekehrt proportional zu ihrer Position in der nach Häufigkeit sortierten Menge ist. Somit gilt 
+Es liegt ein exponentieller Zusammenhang vor. Da ferner die Gruppen nach der Anzahl der Reviews sortiert wurden, erinnert dies an das Zipfsche Gesetz, welchen seinen Usprung in der Linguistik hat. Dieses besagt, dass die Wahrscheinlichkeit des Auftretens der Elemente einer Menge umgekehrt proportional zu ihrer Position in der nach Häufigkeit sortierten Menge ist. Somit gilt 
 \begin{equation}
 	p(n)\sim \frac{1}{n},
 \end{equation}
@@ -100,7 +101,7 @@ Zunächst haben wir die Gruppierung der Nutzer nach ihrer Anzahl an Reviews beib
 Wie im vorigen Abschnitt bereits angesprochen überwiegen die Nutzer mit wenigen Reviews. Daher ist die Durchschnittsbildung über die Merkmale bei den Gruppen mit wenigen Reviews (mehr Reviewer je Gruppe) stabiler. Für Gruppen mit mehr als 100 Reviews, kann es unter Umständen sein, dass diese nur aus einem einzigen Reviewer besteht. Dies zeigt sich in der starken Streuung der vier Grafen mit zunehmender Reviewanzahl. Aus diesem Grund wurde die Achse der Reviewanzahl logarithmiert, um so die relevanteren Gruppen in den Fokus zu rücken. Auch, wenn der Durchschnitt für einige Gruppen nicht sehr aussagekräftig ist, so lassen sich dennoch deutliche Zusammenhänge erkennen. Nutzer die mehrere Reviews verfassen, schreiben ausführlichere Bewertungstexte und werden von anderen Nutzern als hilfreicher eingestuft. Ebenso scheinen sie Produkte leicht besser zu bewerten.
 
 \subsection{Textlänge und Produktbewertung}
-Ein interessanter Zusammenhang hat sich bei der Beziehung zwischen der Textlänge des Reviews und der Produktbewertung gezeigt. Die Textlänge haben wir im Folgenden auf Zeichen- und  Wortanzahl untersucht. Dabei wurden alle Reviews mit gleicher Länge zusammengruppiert und über diese Gruppen die durchschnittlichen Produktbewertungen bestimmt. Die Ergebnisse dieses Versuchs sind in den Abbildungen \ref{fig_char_rating} und \ref{fig_word_rating} dargestellt.
+Ein interessanter Zusammenhang hat sich bei der Beziehung zwischen der Textlänge des Reviews und der Produktbewertung gezeigt. Die Textlänge haben wir im Folgenden auf Zeichen- und  Wortanzahl untersucht. Dabei wurden alle Reviews mit gleicher Länge zusammengruppiert und über diese Gruppen die durchschnittlichen Produktbewertungen bestimmt. Die Ergebnisse dieses Versuchs sind in den Abbildungen \href{fig_char_rating} und \ref{fig_word_rating} dargestellt.
 \begin{figure}
 \centering
     \includegraphics[width=0.7\textwidth]{_results/char_rating.png}
@@ -145,6 +146,13 @@ Als ersten Schritt haben wir die Daten mit einer Hauptachsentransformation bearb
    \includegraphics[width=0.8\textwidth]{_results/helpfull_count2.png}
 \end{figure}
 \subsection*{unlogarithmierte Graphen}
+
+\begin{figure}[H]
+
+   \includegraphics[width=0.8\textwidth]{unlogbox.png}
+   \label{unlog}
+\end{figure}
+
 \begin{figure}[H]
    \includegraphics[width=0.8\textwidth]{_results/charcount.png}
 \end{figure}
