@@ -88,7 +88,7 @@ Eine Fragestellung ist die Verteilung der Reviews auf die Nutzer. Hierfür haben
     \centering
     \includegraphics[width=0.8\textwidth]{bild.png}
     \label{fig_reviews}
-    \caption{Reviewverteilung}
+    \caption{Reviewverteilung nach Häufigkeiten sortiert (logarithmiert)}
 \end{figure}
 Es liegt ein exponentieller Zusammenhang vor. Da ferner die Gruppen nach der Anzahl der Reviews sortiert wurden, erinnert dies an das Zipfsche Gesetz, welchen seinen Usprung in der Linguistik hat. Dieses besagt, dass die Wahrscheinlichkeit des Auftretens der Elemente einer Menge umgekehrt proportional zu ihrer Position in der nach Häufigkeit sortierten Menge ist. Somit gilt 
 \begin{equation}
@@ -101,15 +101,17 @@ Zunächst haben wir die Gruppierung der Nutzer nach ihrer Anzahl an Reviews beib
 Wie im vorigen Abschnitt bereits angesprochen überwiegen die Nutzer mit wenigen Reviews. Daher ist die Durchschnittsbildung über die Merkmale bei den Gruppen mit wenigen Reviews (mehr Reviewer je Gruppe) stabiler. Für Gruppen mit mehr als 100 Reviews, kann es unter Umständen sein, dass diese nur aus einem einzigen Reviewer besteht. Dies zeigt sich in der starken Streuung der vier Grafen mit zunehmender Reviewanzahl. Aus diesem Grund wurde die Achse der Reviewanzahl logarithmiert, um so die relevanteren Gruppen in den Fokus zu rücken. Auch, wenn der Durchschnitt für einige Gruppen nicht sehr aussagekräftig ist, so lassen sich dennoch deutliche Zusammenhänge erkennen. Nutzer die mehrere Reviews verfassen, schreiben ausführlichere Bewertungstexte und werden von anderen Nutzern als hilfreicher eingestuft. Ebenso scheinen sie Produkte leicht besser zu bewerten.
 
 \subsection{Textlänge und Produktbewertung}
-Ein interessanter Zusammenhang hat sich bei der Beziehung zwischen der Textlänge des Reviews und der Produktbewertung gezeigt. Die Textlänge haben wir im Folgenden auf Zeichen- und  Wortanzahl untersucht. Dabei wurden alle Reviews mit gleicher Länge zusammengruppiert und über diese Gruppen die durchschnittlichen Produktbewertungen bestimmt. Die Ergebnisse dieses Versuchs sind in den Abbildungen \href{fig_char_rating} und \ref{fig_word_rating} dargestellt.
+Ein interessanter Zusammenhang hat sich bei der Beziehung zwischen der Textlänge des Reviews und der Produktbewertung gezeigt. Die Textlänge haben wir im Folgenden auf Zeichen- und  Wortanzahl untersucht. Dabei wurden alle Reviews mit gleicher Länge zusammengruppiert und über diese Gruppen die durchschnittlichen Produktbewertungen bestimmt. Die Ergebnisse dieses Versuchs sind in den Abbildungen \ref{fig_char_rating} und \ref{fig_word_rating} dargestellt.
 \begin{figure}
 \centering
     \includegraphics[width=0.7\textwidth]{_results/char_rating.png}
+    \caption{Produktbewertung in Abhängigkeit von der Zeichenanzahl}
 	\label{fig_char_rating}
 \end{figure}
 \begin{figure}
 \centering
     \includegraphics[width=0.7\textwidth]{_results/word_rating.png}
+    \caption{Produktbewertung in Abhängigkeit von der Wortanzahl}
 	\label{fig_word_rating}
 \end{figure}
 Hier sind die Produktbewertungen mit wenigen Wörtern anfänglich zwischen 4,0 und 4,5. Mit zunehmender Textlänge bis etwa 180 Wörtern fällt die Bewertung auf 3,6 erholt sich danach aber wieder leicht. Ab 1000 Wörtern sind zuverlässige Aussgen wieder nicht mehr möglich, da die Gruppen zu klein werden.
@@ -135,29 +137,36 @@ Als ersten Schritt haben wir die Daten mit einer Hauptachsentransformation bearb
 \subsection*{Grafiken}
 \begin{figure}[H]
    \includegraphics[width=0.8\textwidth]{_results/char_count2.png}
+   \caption{Reviewlänge in Zeichenanzahl in Abhängigkeit von der Anzahl der Reviews}
 \end{figure}
 \begin{figure}[H]
    \includegraphics[width=0.8\textwidth]{_results/rating_count.png}
+   \caption{Produktbewertung in Abhängigkeit von der Anzahl der Reviews}
 \end{figure}
 \begin{figure}[H]
    \includegraphics[width=0.8\textwidth]{_results/word_count2.png}
+   \caption{Reviewlänge in Wortanzahl in Abhängigkeit von der Anzahl der Reviews}
 \end{figure}
 \begin{figure}[H]
    \includegraphics[width=0.8\textwidth]{_results/helpfull_count2.png}
+   \caption{Hilfreichbewertung in Abhängigkeit von der Anzahl der Reviews}
 \end{figure}
 \subsection*{unlogarithmierte Graphen}
 
 \begin{figure}[H]
 
    \includegraphics[width=0.8\textwidth]{unlogbox.png}
+   \caption{Reviewverteilung nach Häufigkeiten sortiert}
    \label{unlog}
 \end{figure}
 
 \begin{figure}[H]
    \includegraphics[width=0.8\textwidth]{_results/charcount.png}
+   \caption{Reviewlänge in Zeichenanzahl in Abhängigkeit von der Anzahl der Reviews}
 \end{figure}
 \begin{figure}[H]
    \includegraphics[width=0.8\textwidth]{_results/helpfull_count.png}
+   \caption{Hilfreichbewertung in Abhängigkeit von der Anzahl der Reviews}
 \end{figure}
 
 \newpage
